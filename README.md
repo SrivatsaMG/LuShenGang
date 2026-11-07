@@ -39,6 +39,12 @@ The public homepage works without Discord credentials. Login stays disabled and 
 
 Auth.js handles the OAuth state/CSRF checks and issues an encrypted, HTTP-only JWT session cookie. The callback checks guild membership using the bot token. Every protected dashboard request fetches current guild roles server-side; role IDs and bot credentials are never sent to the browser. In production, serve the app over HTTPS so the Auth.js session cookie is Secure.
 
+### Discord login troubleshooting
+
+- If login reports that the bot token was rejected, reset the bot token in the Discord Developer Portal, update `DISCORD_BOT_TOKEN` in the Vercel **Production** environment, and redeploy.
+- If Discord refuses the membership check, confirm the bot is a member of the exact server configured by `DISCORD_GUILD_ID` and enable **Server Members Intent** under the bot's privileged gateway intents.
+- If verification remains unavailable, inspect the Vercel function logs for the Discord HTTP status. Never share bot tokens or client secrets in logs or support messages.
+
 ## Member photo gallery
 
 Any signed-in member of the configured Discord guild can submit up to five photos per hour. Uploads accept JPG, PNG, or WebP up to 8 MB and remain private in Supabase Storage until an owner, leader, or management-role user approves them. Guild members can view approved photos; pending photos are visible only to their uploader and management. The server verifies guild membership and management permissions on each API request. It returns short-lived signed image URLs rather than making the storage bucket public.

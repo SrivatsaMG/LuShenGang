@@ -16,7 +16,9 @@ const errorMessages: Record<string, string> = {
   OAuthSignin: "Discord could not start the sign-in flow. Please try again in a moment.",
   Configuration: "Discord login is not configured yet. Ask a site administrator to finish the setup.",
   discord_rate_limited: "Discord is rate limiting membership checks. Wait a moment, then try signing in again.",
-  discord_verification_failed: "We could not verify your Discord server membership. Please try again later.",
+  discord_bot_unauthorized: "Discord rejected the site's bot token. An administrator must reset DISCORD_BOT_TOKEN in Vercel and redeploy.",
+  discord_bot_forbidden: "Discord refused the membership check. An administrator should confirm the bot is in the configured server and Server Members Intent is enabled in the Discord Developer Portal.",
+  discord_verification_failed: "Discord membership verification is unavailable. An administrator should check the Vercel function logs and bot configuration.",
   invite_not_configured: "The public Discord invite has not been configured yet.",
 };
 

@@ -27,10 +27,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return await isDiscordGuildMember(user.id);
       } catch (error) {
         if (!(error instanceof DiscordApiError)) throw error;
-        console.error("Discord guild membership could not be checked during sign-in.", error);
-        return error.status === 429
-          ? "/login?error=discord_rate_limited"
-          : "/login?error=discord_verification_failed";
+        console.error("Discord guild membership could not be checked during sign-in.", {
+          status: error.status,
+          message: error.message,
+          retryAfterSeconds: error.retryAfterSeconds,
+        });
+        if (error.status === 429) return "/login?error=discord_rate_limited";
+        if (error.status === 401) return "/login?error=discord_bot_unauthorized";
+        if (error.status === 403) return "/login?error=discord_bot_forbidden";
+        return "/login?error=discord_verification_failed";
       }
     },
     async session({ session, token }) {

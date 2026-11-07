@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1100" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="900" y1="0" x2="900" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#181a28"/>
+      <stop offset=".43" stop-color="#6e333b"/>
+      <stop offset=".68" stop-color="#d47a58"/>
+      <stop offset="1" stop-color="#191a20"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="900" y1="570" x2="900" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#343039"/>
+      <stop offset=".35" stop-color="#17181e"/>
+      <stop offset="1" stop-color="#090a0d"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="900" y1="235" x2="900" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffc38b" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#f25d52" stop-opacity=".05"/>
+    </linearGradient>
+    <linearGradient id="road" x1="897" y1="710" x2="897" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#56525a"/>
+      <stop offset="1" stop-color="#17181d"/>
+    </linearGradient>
+    <pattern id="windows" width="31" height="42" patternUnits="userSpaceOnUse">
+      <rect x="7" y="8" width="9" height="17" rx="1" fill="#f3a277" fill-opacity=".4"/>
+      <rect x="21" y="8" width="5" height="17" rx="1" fill="#ffd49e" fill-opacity=".21"/>
+    </pattern>
+    <filter id="blur"><feGaussianBlur stdDeviation="30"/></filter>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1800v1100H0z"/>
+  <ellipse cx="1040" cy="485" fill="#ffb16e" fill-opacity=".27" rx="380" ry="115" filter="url(#blur)"/>
+  <circle cx="1065" cy="405" r="151" fill="url(#sun)" opacity=".68"/>
+  <path fill="#292632" d="m0 554 95-38 96 24 126-104 125 46 118-114 119 72 102-27 123 119 113-62 116 84 108-36 128 65 93-57 142 44 96-36v240H0z"/>
+  <path fill="#1e2028" d="m0 622 165-84 123 30 134-101 145 53 130-65 159 84 151-50 144 68 142-88 184 97 158-28 165 49v249H0z"/>
+  <g fill="#191a20">
+    <path d="M0 554h84v276H0zM95 577h103v253H95zM217 550h63v280h-63zM295 586h119v244H295zM431 524h88v306h-88zM535 566h77v264h-77zM624 539h131v291H624zM770 583h74v247h-74zM861 547h106v283H861zM984 570h146v260H984zM1148 532h102v298h-102zM1266 587h82v243h-82zM1364 555h133v275h-133zM1512 576h81v254h-81zM1608 541h108v289h-108zM1731 590h69v240h-69z"/>
+  </g>
+  <g fill="url(#windows)" opacity=".72">
+    <path d="M0 554h84v276H0zM95 577h103v253H95zM217 550h63v280h-63zM295 586h119v244H295zM431 524h88v306h-88zM535 566h77v264h-77zM624 539h131v291H624zM770 583h74v247h-74zM861 547h106v283H861zM984 570h146v260H984zM1148 532h102v298h-102zM1266 587h82v243h-82zM1364 555h133v275h-133zM1512 576h81v254h-81zM1608 541h108v289h-108zM1731 590h69v240h-69z"/>
+  </g>
+  <path fill="url(#ground)" d="M0 694c274-66 518-95 839-79 338 16 673-16 961-95v575H0z"/>
+  <path fill="url(#road)" d="M702 1100c84-178 132-327 137-477l126-6c8 154 66 312 158 483z" opacity=".8"/>
+  <path stroke="#e9b083" stroke-opacity=".4" stroke-width="2" d="M911 745c-6 69-22 158-49 256m118-260c11 72 32 162 62 250"/>
+  <path stroke="#f8d2a0" stroke-opacity=".3" stroke-width="3" stroke-dasharray="31 25" d="M900 777c-8 71-22 132-40 192m83-193c10 70 26 132 47 190"/>
+  <g fill="#0b0c10" opacity=".94">
+    <path d="M157 871h12c13-41 27-85 29-134 2-59-11-106-30-142 35 28 59 64 68 110 12 60-7 117-30 166h19v10H157z"/>
+    <path d="M229 731c-35-16-57-44-65-84 27 31 51 42 79 46-37-29-49-67-40-112 17 42 36 62 64 77-24-38-25-77-4-115 8 41 22 65 48 89-11-46 0-82 31-112-5 41 1 70 19 101-3-47 15-80 54-100-14 40-14 72-1 105 13-38 42-61 83-70-28 34-41 64-43 102-8 64-27 131-61 207H282l14-10h-46v-13h34z"/>
+    <path d="M1491 907h14c9-35 17-70 18-108 1-47-10-85-26-115 30 23 50 53 58 91 9 49-7 96-24 132h17v11h-59z"/>
+    <path d="M1539 735c-29-13-46-36-53-69 22 25 42 34 64 37-30-24-39-55-32-92 14 34 29 50 52 62-20-31-20-63-4-93 7 33 18 53 39 73-9-38 0-67 25-92-4 34 1 58 16 82-2-38 12-65 44-81-11 33-11 59 0 86 11-31 34-50 68-57-23 27-33 52-35 83-6 53-22 107-50 169h-132l12-9h-37v-11h28z"/>
+  </g>
+  <path fill="#fff" fill-opacity=".035" d="M0 0h1800v1100H0z"/>
+</svg>

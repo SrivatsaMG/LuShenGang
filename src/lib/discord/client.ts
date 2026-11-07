@@ -7,6 +7,7 @@ export class DiscordApiError extends Error {
     message: string,
     readonly status: number,
     readonly retryAfterSeconds?: number,
+    readonly source: "http" | "network" = "http",
   ) {
     super(message);
     this.name = "DiscordApiError";
@@ -35,7 +36,12 @@ export async function getDiscordGuildMember(userId: string): Promise<DiscordGuil
     );
   } catch (error) {
     console.error("Discord guild membership request failed.", error);
-    throw new DiscordApiError("Discord membership verification is temporarily unavailable.", 503);
+    throw new DiscordApiError(
+      "The site could not connect to Discord to verify guild membership.",
+      503,
+      undefined,
+      "network",
+    );
   }
 
   if (response.status === 404) return null;

@@ -35,7 +35,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (error.status === 429) return "/login?error=discord_rate_limited";
         if (error.status === 401) return "/login?error=discord_bot_unauthorized";
         if (error.status === 403) return "/login?error=discord_bot_forbidden";
-        return "/login?error=discord_verification_failed";
+        if (error.source === "network") return "/login?error=discord_network_error";
+        if (error.status >= 500) return "/login?error=discord_api_unavailable";
+        return `/login?error=discord_api_${error.status}`;
       }
     },
     async session({ session, token }) {

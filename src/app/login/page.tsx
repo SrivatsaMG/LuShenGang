@@ -18,7 +18,8 @@ const errorMessages: Record<string, string> = {
   discord_rate_limited: "Discord is rate limiting membership checks. Wait a moment, then try signing in again.",
   discord_bot_unauthorized: "Discord rejected the site's bot token. An administrator must reset DISCORD_BOT_TOKEN in Vercel and redeploy.",
   discord_bot_forbidden: "Discord refused the membership check. An administrator should confirm the bot is in the configured server and Server Members Intent is enabled in the Discord Developer Portal.",
-  discord_verification_failed: "Discord membership verification is unavailable. An administrator should check the Vercel function logs and bot configuration.",
+  discord_network_error: "The website could not connect to Discord to verify your membership. Please try again; if it continues, the site administrator should check Vercel function logs for a network timeout or connection error.",
+  discord_api_unavailable: "Discord's API returned a server error while checking membership. Please try again shortly; the site administrator should check the Vercel function logs.",
   invite_not_configured: "The public Discord invite has not been configured yet.",
 };
 
@@ -35,6 +36,7 @@ async function LoginPageContent({
 }: { searchParams: PageProps<"/login">["searchParams"] }) {
   const params = await searchParams;
   const error = typeof params.error === "string" ? params.error : null;
+  const discordApiStatus = error?.match(/^discord_api_(\d{3})$/)?.[1];
   const configured = isDiscordLoginConfigured();
 
   return (
@@ -57,7 +59,9 @@ async function LoginPageContent({
           <p className="auth-intro">Sign in with the Discord account connected to your gang membership.</p>
           {error && (
             <p className="auth-error" role="alert">
-              {errorMessages[error] ?? "Sign-in failed. Please try again or contact a server administrator."}
+              {errorMessages[error] ?? (discordApiStatus
+                ? `Discord returned HTTP ${discordApiStatus} while checking your server membership. The site administrator should verify the guild ID and check the Vercel function logs.`
+                : "Sign-in failed. Please try again or contact a server administrator.")}
             </p>
           )}
           {configured ? (

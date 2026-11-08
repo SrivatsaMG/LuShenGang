@@ -78,7 +78,7 @@ async function LoginPageContent({
             </div>
           )}
           <div className="auth-divider"><span /> MEMBER ACCESS <span /></div>
-          <p className="auth-note"><ShieldCheck aria-hidden="true" size={14} /> Membership is verified securely with Discord.</p>
+          <p className="auth-note"><ShieldCheck aria-hidden="true" size={14} /> Server members can access the community. Other accounts return to the homepage.</p>
         </div>
       </section>
       <footer className="auth-footer">

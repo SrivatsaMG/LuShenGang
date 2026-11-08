@@ -21,7 +21,7 @@ A Next.js App Router community portal with a public homepage, Discord OAuth logi
 
 5. Open `http://localhost:3000`.
 
-The public homepage works without Discord credentials. Login stays disabled and explains the missing setup until all required OAuth, guild, bot, and session settings are provided.
+The public homepage works without Discord credentials. Login stays disabled and explains the missing setup until all required OAuth, guild, bot, and session settings are provided. Any Discord account can complete OAuth; accounts outside the configured guild are sent to the public homepage.
 
 ## Discord Developer Portal
 
@@ -37,12 +37,12 @@ The public homepage works without Discord credentials. Login stays disabled and 
 10. Run `supabase/migrations/202611070001_gallery.sql` in the Supabase SQL editor. It creates the gallery metadata table and private `gang-gallery` bucket. If `SUPABASE_STORAGE_BUCKET` is changed, update the bucket ID in the migration to match.
 11. When deploying behind a trusted reverse proxy, set `AUTH_TRUST_HOST=true` only if that proxy supplies the correct host headers. Local development trusts the host automatically; Vercel is detected automatically.
 
-Auth.js handles the OAuth state/CSRF checks and issues an encrypted, HTTP-only JWT session cookie. The callback checks guild membership using the bot token. Every protected dashboard request fetches current guild roles server-side; role IDs and bot credentials are never sent to the browser. In production, serve the app over HTTPS so the Auth.js session cookie is Secure.
+Auth.js handles the OAuth state/CSRF checks and issues an encrypted, HTTP-only JWT session cookie. OAuth sign-in does not require guild membership. After sign-in, the app checks guild membership and sends non-members—or users whose membership cannot be verified—to the public homepage. Every protected dashboard and gallery request fetches current guild membership and roles server-side; role IDs and bot credentials are never sent to the browser. In production, serve the app over HTTPS so the Auth.js session cookie is Secure.
 
 ### Discord login troubleshooting
 
-- If login reports that the bot token was rejected, reset the bot token in the Discord Developer Portal, update `DISCORD_BOT_TOKEN` in the Vercel **Production** environment, and redeploy.
-- If Discord refuses the membership check, confirm the bot is a member of the exact server configured by `DISCORD_GUILD_ID` and enable **Server Members Intent** under the bot's privileged gateway intents.
+- If Discord login succeeds but a guild member is sent to the homepage or cannot access member pages, confirm the bot is a member of the exact server configured by `DISCORD_GUILD_ID`, check its role IDs, and enable **Server Members Intent** under the bot's privileged gateway intents.
+- If membership checks report an invalid bot token, reset it in the Discord Developer Portal, update `DISCORD_BOT_TOKEN` in the Vercel **Production** environment, and redeploy. OAuth sign-in can still succeed, but protected member pages remain unavailable until server verification works.
 - If verification remains unavailable, inspect the Vercel function logs for the Discord HTTP status. Never share bot tokens or client secrets in logs or support messages.
 
 ## Member photo gallery

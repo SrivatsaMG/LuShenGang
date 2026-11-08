@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import Discord from "next-auth/providers/discord";
-import { DiscordApiError, isDiscordGuildMember } from "@/lib/discord/client";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -22,23 +21,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user }) {
-      if (!user.id) return false;
-      try {
-        return await isDiscordGuildMember(user.id);
-      } catch (error) {
-        if (!(error instanceof DiscordApiError)) throw error;
-        console.error("Discord guild membership could not be checked during sign-in.", {
-          status: error.status,
-          message: error.message,
-          retryAfterSeconds: error.retryAfterSeconds,
-        });
-        if (error.status === 429) return "/login?error=discord_rate_limited";
-        if (error.status === 401) return "/login?error=discord_bot_unauthorized";
-        if (error.status === 403) return "/login?error=discord_bot_forbidden";
-        if (error.source === "network") return "/login?error=discord_network_error";
-        if (error.status >= 500) return "/login?error=discord_api_unavailable";
-        return `/login?error=discord_api_${error.status}`;
-      }
+      return typeof user.id === "string" && user.id.length > 0;
     },
     async session({ session, token }) {
       if (session.user && typeof token.sub === "string") {

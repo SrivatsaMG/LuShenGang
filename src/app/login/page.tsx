@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
-import { ArrowLeft, LockKeyhole } from "lucide-react";
+import { ArrowLeft, LockKeyhole, ShieldCheck } from "lucide-react";
 import { BrandMark } from "@/components/brand-mark";
 import { DiscordMark } from "@/components/discord-mark";
 import { loginWithDiscord } from "@/app/login/actions";
@@ -41,22 +41,19 @@ async function LoginPageContent({
 
   return (
     <main className="auth-shell">
-      <section aria-label="Los Santos city artwork" className="auth-art">
-        <div className="auth-art-copy">
-          <p className="eyebrow"><span className="eyebrow-line" /> LU SHEN GANG · MEMBER PORTAL</p>
-          <h1>THE CITY<br />IS YOURS.</h1>
-          <p>Your crew. Your stories. Your home in Los Santos. Sign in with Discord to access the private community dashboard.</p>
-        </div>
-      </section>
-      <section className="auth-panel">
+      <div aria-hidden="true" className="auth-backdrop" />
+      <header className="auth-header">
+        <Link aria-label="LU SHEN GANG home" className="brand-lockup auth-brand" href="/">
+          <BrandMark />
+          <span><strong>LU SHEN</strong><small>LOS SANTOS · EST. 2024</small></span>
+        </Link>
+        <span className="auth-header-label"><span /> PRIVATE COMMUNITY</span>
+      </header>
+      <section aria-labelledby="login-title" className="auth-content">
         <div className="auth-card">
-          <Link aria-label="LU SHEN GANG home" className="brand-lockup auth-brand" href="/">
-            <BrandMark />
-            <span><strong>LU SHEN</strong><small>LOS SANTOS · EST. 2024</small></span>
-          </Link>
-          <p className="eyebrow"><span className="eyebrow-line" /> MEMBER ACCESS</p>
-          <h2>Welcome back.</h2>
-          <p className="auth-intro">Sign in with the Discord account connected to your gang membership.</p>
+          <p className="eyebrow"><span className="eyebrow-line" /> MEMBER PORTAL</p>
+          <h1 id="login-title">Your crew<br />is waiting.</h1>
+          <p className="auth-intro">Sign in with Discord to step back into Los Santos and connect with your gang.</p>
           {error && (
             <p className="auth-error" role="alert">
               {errorMessages[error] ?? (discordApiStatus
@@ -80,10 +77,14 @@ async function LoginPageContent({
               </ul>
             </div>
           )}
-          <p className="auth-note"><LockKeyhole aria-hidden="true" size={12} /> Your Discord credentials are handled by Discord. We never see your password.</p>
-          <Link className="auth-back" href="/"><ArrowLeft aria-hidden="true" size={14} /> Back to the public site</Link>
+          <div className="auth-divider"><span /> MEMBER ACCESS <span /></div>
+          <p className="auth-note"><ShieldCheck aria-hidden="true" size={14} /> Membership is verified securely with Discord.</p>
         </div>
       </section>
+      <footer className="auth-footer">
+        <span><LockKeyhole aria-hidden="true" size={12} /> Your Discord password is never shared with us.</span>
+        <Link className="auth-back" href="/"><ArrowLeft aria-hidden="true" size={14} /> Back to the public site</Link>
+      </footer>
     </main>
   );
 }
